@@ -7,6 +7,7 @@ export class Exercise1 extends Component {
     this.getStartCoords = this.getStartCoords.bind(this)
     this.findPath = this.findPath.bind(this)
     this.drawPath = this.drawPath.bind(this)
+    this.state = {}
   }
 
   solution (matrix) {
@@ -68,15 +69,62 @@ export class Exercise1 extends Component {
       if (this.drawPath(matrix, matrixCopy, row, column - 1)) {
         return matrixCopy
       }
+
       return false
     }
+
     return false
   }
 
   render () {
+    const matriz3x3 = [
+      ['I', 0, 0, 1, 'S'],
+      [1, 0, 1, 1, 0],
+      [1, 0, 0, 1, 0],
+      [0, 0, 1, 0, 0],
+      [1, 0, 0, 0, 0]
+    ]
+
+    const { solution } = this
+
     return (
       <div className='container'>
-        Exercise1 page
+        <div className='matrix-wrapper'>
+          <h3>Input</h3>
+          <table border='1'>
+            {matriz3x3.map((row, i) => {
+              return (
+                <tr>
+                  {row.map((column, i) => {
+                    return (
+                      <td>
+                        {column}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </table>
+        </div>
+        <div className='matrix-wrapper'>
+          <h3>Output</h3>
+          <table border='1'>
+            {solution(matriz3x3).map((row, i) => {
+              return (
+                <tr>
+                  {row.map((column, i) => {
+                    return (
+                      <td>
+                        {column}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </table>
+        </div>
       </div>
     )
   }

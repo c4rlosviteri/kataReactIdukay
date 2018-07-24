@@ -21,12 +21,12 @@ describe('Exercise1', () => {
     it('deberia retornarme una matriz con el camino', () => {
       const matriz3x3 = [['I', 0, 1], [1, 0, 1], [1, 0, 'S']]
 
-      const salida = instance.calculo(matriz3x3)
+      const salida = instance.solution(matriz3x3)
 
       expect(salida).toEqual([['x', 'x', 1], [1, 'x', 1], [1, 'x', 'x']])
     })
 
-    fit('deberia retornarme una matriz con el camino 2', () => {
+    it('deberia retornarme una matriz con el camino 2', () => {
       const matriz3x3 = [
         ['I', 0, 0, 1, 'S'],
         [1, 0, 1, 1, 0],
