@@ -1,65 +1,85 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 
 export class Exercise1 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.calculo = this.calculo.bind(this)
-    this.getStart = this.getStart.bind(this)
-    this.buscarCamino = this.buscarCamino.bind(this)
+  constructor (props) {
+    super(props)
+    this.solution = this.solution.bind(this)
+    this.getStartCoords = this.getStartCoords.bind(this)
+    this.findPath = this.findPath.bind(this)
+    this.drawPath = this.drawPath.bind(this)
   }
 
-  calculo(matriz) {
-    const [columna, fila] = this.getStart(matriz)
-    const resultado = this.buscarCamino(matriz, columna, fila)
-    return resultado
+  solution (matrix) {
+    const [row, column] = this.getStartCoords(matrix)
+    const resultantMatrix = this.drawPath(matrix, matrix, row, column)
+    return resultantMatrix
   }
 
-  buscarCamino(matriz, columna, fila) {
-    const matrizCopy = [...matriz]
-
-    if (matrizCopy[columna][fila] === 'S') {
-      matrizCopy[columna][fila] = 'x'
-
-    } else if (matrizCopy[columna][fila] === 0 || matrizCopy[columna][fila] === 'I') {
-      matrizCopy[columna][fila] = 'x'
-      if (columna < matrizCopy.length - 1) {
-        this.buscarCamino(matrizCopy, columna + 1, fila);
-      }
-      if (fila < matrizCopy[columna].length - 1) {
-        this.buscarCamino(matrizCopy, columna, fila + 1);
-      }
-      if (columna > 0) {
-        this.buscarCamino(matrizCopy, columna - 1, fila);
-      }
-      if (fila > 0) {
-        this.buscarCamino(matrizCopy, columna, fila - 1);
-      }
-    }
-
-    return matrizCopy
-  }
-
-  getStart(matriz) {
-    let indexFila;
-    let indexColumna;
-    const entrada = matriz.forEach((columna, index) => {
-      const column = columna.indexOf('I')
+  getStartCoords (matrix) {
+    let indexRow
+    let indexColumn
+    matrix.forEach((row, index) => {
+      const column = row.indexOf('I')
       if (column !== -1) {
-        indexColumna = column
-        indexFila = index
+        indexRow = index
+        indexColumn = column
       }
     })
-    return [indexColumna, indexFila]
+    return [indexRow, indexColumn]
   }
 
-  render() {
+  findPath (matrix, row, column) {
+    if (
+      row >= 0 &&
+      row < matrix.length &&
+      (column >= 0 && column < matrix[0].length) &&
+      (matrix[row][column] === 0 ||
+        matrix[row][column] === 'S' ||
+        matrix[row][column] === 'I')
+    ) {
+      return true
+    }
+    return false
+  }
+
+  drawPath (matrix, matrixCopy, row, column) {
+    if (
+      row >= 0 &&
+      row < matrix.length &&
+      (column >= 0 && column < matrix[0].length) &&
+      matrix[row][column] === 'S'
+    ) {
+      matrixCopy[row][column] = 'x'
+      return matrixCopy
+    }
+
+    if (this.findPath(matrix, row, column)) {
+      matrixCopy[row][column] = 'x'
+
+      if (this.drawPath(matrix, matrixCopy, row + 1, column)) {
+        return matrixCopy
+      }
+      if (this.drawPath(matrix, matrixCopy, row, column + 1)) {
+        return matrixCopy
+      }
+      if (this.drawPath(matrix, matrixCopy, row - 1, column)) {
+        return matrixCopy
+      }
+      if (this.drawPath(matrix, matrixCopy, row, column - 1)) {
+        return matrixCopy
+      }
+      return false
+    }
+    return false
+  }
+
+  render () {
     return (
-      <div className="container">
+      <div className='container'>
         Exercise1 page
       </div>
-    );
+    )
   }
 }
 
-export default Exercise1;
+export default Exercise1
